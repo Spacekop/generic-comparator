@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Class that can be used to compare any two classes for sorting purposes.
+ * Class that can be used to compare any two objects of the same type for sorting purposes.
  * Example:
  *  GenericComparator&lt;MyClass&gt; comparator = GenericComparator.Builder&lt;MyClass&gt;()
  *      .addSortPredicate(o -> o.getFirstSortProperty())
@@ -14,28 +14,38 @@ import java.util.function.Function;
  *      .build();
  *
  *  Collections.sort(listOfMyClass, comparator);
+ *
+ * Of course, the results of these sort predicates must be objects that implement Comparable, otherwise this is
+ * impossible.
+ *
+ * @param <T> Type of objects being compared
  */
-public class GenericComparator<T> implements Comparator<T> {
+public final class GenericComparator<T> implements Comparator<T> {
     private final List<Function<T, Comparable>> orderedSortPredicates;
 
-    private GenericComparator(List<Function<T, Comparable>> orderedSortPredicates) {
+    private GenericComparator(final List<Function<T, Comparable>> orderedSortPredicates) {
         this.orderedSortPredicates = orderedSortPredicates;
     }
 
+    /**
+     * Builder class for GenericComparator&lt;T&gt;.
+     * @param <T> Type of objects being compared
+     */
     public static class Builder<T> {
         private final List<Function<T, Comparable>> sortPredicates = new ArrayList<Function<T, Comparable>>();
 
-        public Builder<T> addSortPredicate(Function<T, Comparable> predicate) {
+        public final Builder<T> addSortPredicate(final Function<T, Comparable> predicate) {
             sortPredicates.add(predicate);
             return this;
         }
 
-        public GenericComparator<T> build() {
+        public final GenericComparator<T> build() {
             return new GenericComparator<T>(sortPredicates);
         }
     }
 
-    public int compare(T o1, T o2) {
+
+    public int compare(final T o1, final T o2) {
         for (Function<T, Comparable> func : orderedSortPredicates) {
             int result = func.apply(o1).compareTo(func.apply(o2));
             if (result != 0) {

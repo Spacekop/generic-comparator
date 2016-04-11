@@ -1,0 +1,24 @@
+[
+    {
+        "theBusiness":2,
+        "waysInWhichMyLifeIsAFailure":[
+            "never eaten a taco",
+            "i've stopped owning people online",
+            "i am over 20 years old"
+        ],
+        "nestedPojo": {
+            "theKindOfBirdWhatNestsHere": "Sparrow"
+        }
+    },
+    {
+        "theBusiness":1,
+        "waysInWhichMyLifeIsAFailure":[
+            "i have an absurd face",
+            "birds hate me",
+            "i am not a doctor"
+        ],
+        "nestedPojo": {
+            "theKindOfBirdWhatNestsHere": "no birds because they hate me"
+        }
+    }
+]
