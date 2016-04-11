@@ -57,7 +57,7 @@ public class GenericComparatorTest {
     }
 
     @Test
-    public void sort_OneSideNull_Success() throws Exception {
+    public void sort_LeftSideNull_Success() throws Exception {
         GenericComparator<Pojo> genericComparator = new GenericComparator.Builder<Pojo>()
                 .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
                 .build();
@@ -67,6 +67,19 @@ public class GenericComparatorTest {
         Collections.sort(pojoList, genericComparator);
 
         assertTrue(pojoList.get(0).getTheBusiness() == 1);
+    }
+
+    @Test
+    public void sort_RightSideNull_Success() throws Exception {
+        GenericComparator<Pojo> genericComparator = new GenericComparator.Builder<Pojo>()
+                .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
+                .build();
+
+        List<Pojo> pojoList = getExampleList();
+        pojoList.get(1).getNestedPojo().setTheKindOfBirdWhatNestsHere(null);
+        Collections.sort(pojoList, genericComparator);
+
+        assertTrue(pojoList.get(0).getTheBusiness() == 2);
     }
 
     @Test
