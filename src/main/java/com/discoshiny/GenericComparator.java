@@ -47,7 +47,20 @@ public final class GenericComparator<T> implements Comparator<T> {
 
     public int compare(final T o1, final T o2) {
         for (Function<T, Comparable> func : orderedSortPredicates) {
-            int result = func.apply(o1).compareTo(func.apply(o2));
+            int result;
+            Comparable o1Value = func.apply(o1);
+            Comparable o2Value = func.apply(o2);
+
+            if (o1Value == null && o2Value == null) {
+                result = 0;
+            } else if (o1Value == null) {
+                result = 1;
+            } else if (o2Value == null) {
+                result = -1;
+            } else {
+                result = o1Value.compareTo(o2Value);
+            }
+
             if (result != 0) {
                 return result;
             }
