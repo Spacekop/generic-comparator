@@ -10,8 +10,8 @@ import java.util.function.Function;
  * Class that can be used to compare any two objects of the same type for sorting purposes.
  * Example:
  *  GenericComparator&lt;MyClass&gt; comparator = GenericComparator.Builder&lt;MyClass&gt;()
- *      .addSortPredicate(o -> o.getFirstSortProperty())
- *      .addSortPredicate(o -> o.getProperty().getSecondSortProperty())
+ *      .addSortPredicate(o -&gt; o.getFirstSortProperty())
+ *      .addSortPredicate(o -&gt; o.getProperty().getSecondSortProperty())
  *      .build();
  *
  *  Collections.sort(listOfMyClass, comparator);
