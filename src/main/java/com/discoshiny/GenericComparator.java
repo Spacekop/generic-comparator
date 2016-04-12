@@ -1,5 +1,6 @@
 package com.discoshiny;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.function.Function;
  *
  * @param <T> Type of objects being compared
  */
-public final class GenericComparator<T> implements Comparator<T> {
+public final class GenericComparator<T> implements Comparator<T>, Serializable {
     private final List<Function<T, Comparable>> orderedSortPredicates;
 
     private GenericComparator(final List<Function<T, Comparable>> orderedSortPredicates) {
