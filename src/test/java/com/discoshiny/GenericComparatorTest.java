@@ -1,17 +1,12 @@
 package com.discoshiny;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.Resources;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.nio.charset.Charset;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Spacekop on 4/11/16.
@@ -23,24 +18,16 @@ public class GenericComparatorTest {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-    private static List<Pojo> getExampleList() throws Exception {
-        String pojoListJson = Resources.toString(Resources.getResource("pojoList.json"), Charset.forName("UTF-8"));
-
-        JsonFactory factory = new JsonFactory();
-        ObjectMapper mapper = new ObjectMapper(factory);
-        return mapper.readValue(pojoListJson, mapper.getTypeFactory().constructCollectionType(List.class, Pojo.class));
-    }
-
     @Test
     public void sort_SingleSortField_Success() throws Exception {
         GenericComparator<Pojo> genericComparator = new GenericComparator.Builder<Pojo>()
                 .addSortPredicate(Pojo::getTheBusiness)
                 .build();
 
-        List<Pojo> pojoList = getExampleList();
-        Collections.sort(pojoList, genericComparator);
+        List<Pojo> pojoList = Fixture.exampleList();
+        pojoList.sort(genericComparator);
 
-        assertTrue(pojoList.get(0).getTheBusiness() == 1);
+        assertEquals(1, (int) pojoList.get(0).getTheBusiness());
     }
 
     @Test
@@ -50,10 +37,10 @@ public class GenericComparatorTest {
                 .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
                 .build();
 
-        List<Pojo> pojoList = getExampleList();
-        Collections.sort(pojoList, genericComparator);
+        List<Pojo> pojoList = Fixture.exampleList();
+        pojoList.sort(genericComparator);
 
-        assertTrue(pojoList.get(0).getTheBusiness() == 1);
+        assertEquals(1, (int) pojoList.get(0).getTheBusiness());
     }
 
     @Test
@@ -62,11 +49,10 @@ public class GenericComparatorTest {
                 .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
                 .build();
 
-        List<Pojo> pojoList = getExampleList();
-        pojoList.get(0).getNestedPojo().setTheKindOfBirdWhatNestsHere(null);
-        Collections.sort(pojoList, genericComparator);
+        List<Pojo> pojoList = Fixture.exampleList();
+        pojoList.sort(genericComparator);
 
-        assertTrue(pojoList.get(0).getTheBusiness() == 1);
+        assertEquals(1, (int) pojoList.get(0).getTheBusiness());
     }
 
     @Test
@@ -75,11 +61,11 @@ public class GenericComparatorTest {
                 .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
                 .build();
 
-        List<Pojo> pojoList = getExampleList();
+        List<Pojo> pojoList = Fixture.exampleList();
         pojoList.get(1).getNestedPojo().setTheKindOfBirdWhatNestsHere(null);
-        Collections.sort(pojoList, genericComparator);
+        pojoList.sort(genericComparator);
 
-        assertTrue(pojoList.get(0).getTheBusiness() == 2);
+        assertEquals(2, (int) pojoList.get(0).getTheBusiness());
     }
 
     @Test
@@ -88,12 +74,12 @@ public class GenericComparatorTest {
                 .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
                 .build();
 
-        List<Pojo> pojoList = getExampleList();
+        List<Pojo> pojoList = Fixture.exampleList();
         pojoList.get(0).getNestedPojo().setTheKindOfBirdWhatNestsHere(null);
         pojoList.get(1).getNestedPojo().setTheKindOfBirdWhatNestsHere(null);
-        Collections.sort(pojoList, genericComparator);
+        pojoList.sort(genericComparator);
 
-        assertTrue(pojoList.get(0).getTheBusiness() == 2);
+        assertEquals(2, (int) pojoList.get(0).getTheBusiness());
     }
 
     @Test
@@ -102,10 +88,10 @@ public class GenericComparatorTest {
                 .addSortPredicate(pojo -> pojo.getNestedPojo().getTheKindOfBirdWhatNestsHere())
                 .build();
 
-        List<Pojo> pojoList = getExampleList();
+        List<Pojo> pojoList = Fixture.exampleList();
         pojoList.get(0).setNestedPojo(null);
 
         exception.expect(NullPointerException.class);
-        Collections.sort(pojoList, genericComparator);
+        pojoList.sort(genericComparator);
     }
 }

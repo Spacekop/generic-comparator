@@ -8,6 +8,10 @@ package com.discoshiny;
 public class NestedPojo {
     private String theKindOfBirdWhatNestsHere;
 
+    public NestedPojo(String theKindOfBirdWhatNestsHere) {
+        this.theKindOfBirdWhatNestsHere = theKindOfBirdWhatNestsHere;
+    }
+
     public String getTheKindOfBirdWhatNestsHere() {
         return theKindOfBirdWhatNestsHere;
     }
